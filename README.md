@@ -6,4 +6,7 @@ Kubernetes notes and commands
 
 ### Deployments
 - kubectl get deployments
-- kubectl describe deployment name
+- kubectl describe deployment name 
+- kubectl edit deployment name 
+  - Edit image name
+  - strategy set to Recreate 
