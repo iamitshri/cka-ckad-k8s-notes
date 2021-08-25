@@ -8,5 +8,5 @@ Kubernetes notes and commands
 - kubectl get deployments
 - kubectl describe deployment name 
 - kubectl edit deployment name 
-  - Edit image name
-  - strategy set to Recreate 
+  - Change image name
+  - change deployment strategy 
