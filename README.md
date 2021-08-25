@@ -10,3 +10,6 @@ Kubernetes notes and commands
 - kubectl edit deployment name 
   - Change image name
   - change deployment strategy 
+
+### Logs
+- kubectl logs pod-name
