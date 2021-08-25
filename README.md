@@ -13,3 +13,25 @@ Kubernetes notes and commands
 
 ### Logs
 - kubectl logs pod-name
+
+### Jobs
+- kubectl get jobs
+- kubectl get cronjob
+- kubectl delete job throw-dice-job
+
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+        name: throw-dice-job
+spec:
+        backoffLimit: 25
+        completions: 3
+        parallelism: 3
+        template:
+                spec:
+                         containers:
+                                 - image: kodekloud/throw-dice
+                                   name: throw-dice-job
+                         restartPolicy: Never
+ ```
