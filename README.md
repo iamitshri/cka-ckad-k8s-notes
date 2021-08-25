@@ -35,3 +35,23 @@ spec:
                                    name: throw-dice-job
                          restartPolicy: Never
  ```
+ - Creating Cron Job
+ ```
+ apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+        name: throw-dice-job
+spec:
+        schedule: "30 21 * * *"
+        jobTemplate:
+                spec:
+                         backoffLimit: 25
+                         completions: 3
+                         parallelism: 3
+                         template:
+                                spec:
+                                  containers:
+                                      - image: kodekloud/throw-dice
+                                        name: throw-dice-job
+                                  restartPolicy: Never
+ ```
