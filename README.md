@@ -115,3 +115,118 @@ spec:
 
 
 ```
+
+kubectl get deployments.apps --all-namespaces
+kubectl get ingress --all-namespaces
+kubectl describe ingress 
+kubectl describe -n app-space ingress name
+kubectl get deployments.apps,svc 
+kubectl get deployments.apps --all-namespaces
+
+kubectl create ns ingress-space
+kubectl create configmap nginx-configuration --namespace ingress-space
+kubectl create serviceaccount ingress-serviceaccount --namespace ingress-space
+
+kubectl get serviceaccounts -n ingress-space
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-controller
+  namespace: ingress-space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nginx-ingress
+  template:
+    metadata:
+      labels:
+        name: nginx-ingress
+    spec:
+      serviceAccountName: ingress-serviceaccount
+      containers:
+        - name: nginx-ingress-controller
+          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
+          args:
+            - /nginx-ingress-controller
+            - --configmap=$(POD_NAMESPACE)/nginx-configuration
+            - --default-backend-service=app-space/default-http-backend
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+
+```
+
+- Create service
+kubectl expose deployment ingress-controller --type=NodePort --port=80 --name=ingress --dry-run=client -o yaml > ingress.yaml
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress
+  namespace: ingress-space
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    nodePort: 30080
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    name: nginx-ingress
+
+```
+
+- Create ingress
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+        name: ingress-wear-watch
+        namespace: app-space
+        annotations:
+                nginx.ingress.kubernetes.io/rewrite-target: /
+                nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+        rules:
+                - http:
+                        paths:
+                                - path: /wear
+                                  pathType: Prefix
+                                  backend:
+                                          service:
+                                                  name: wear-service
+                                                  port:
+                                                          number: 8080
+                                - path: /watch
+                                  pathType: Prefix
+                                  backend:
+                                          service:
+                                                  name: video-service
+                                                  port:
+                                                          number: 8080
+
+```
+
+kubectl -n ingress-space get roles.rbac.authorization.k8s.io
+kubectl -n ingress-space get rolebindings.rbac.authorization.k8s.io
