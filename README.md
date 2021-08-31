@@ -9,6 +9,15 @@ Kubernetes notes and commands
 -- Get objects in namespace
 kubectl get all -n namespace_name
 
+-- getting help
+- kubectl explain persistentvolume --recursive | less
+- Cert tips
+- attempt all questions 
+- dont get stuck 
+- Use shortcuts/ aliases
+![img.png](img.png)
+- Additional tips
+  - https://www.youtube.com/watch?v=rnemKrveZks&ab_channel=MuralidaranShanmugham
 ### Get pods 
 ``` kubectl get pods ```
 
@@ -293,3 +302,4 @@ spec:
                          storage: 50Mi
 
 ```
+
