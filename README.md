@@ -228,5 +228,68 @@ spec:
 
 ```
 
-kubectl -n ingress-space get roles.rbac.authorization.k8s.io
-kubectl -n ingress-space get rolebindings.rbac.authorization.k8s.io
+- check role binding
+
+  - kubectl -n ingress-space get roles.rbac.authorization.k8s.io
+  - kubectl -n ingress-space get rolebindings.rbac.authorization.k8s.io
+
+- Mount volume
+- kubectl run webapp --image=kodekloud/event-simulator --dry-run=client -o yaml > o.yaml
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: webapp
+  name: webapp
+spec:
+  volumes:
+          - name: log-volume
+            hostPath:
+              path:  /var/log/webapp
+              type: Directory
+  containers:
+  - image: kodekloud/event-simulator
+    name: webapp
+    volumeMounts:
+            - mountPath: /log
+              name: log-volume
+```
+
+- Create Persistent Volume
+```
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+        name: pv-log
+spec:
+        persistentVolumeReclaimPolicy: Retain
+        accessModes:
+                - ReadWriteMany
+        capacity:
+                storage: 100Mi
+        hostPath:
+                path: /pv/log
+~                                                                                                                             
+
+```
+
+- Create Persistent Volume Claim 
+- kubectl describe persistentVolumeClaim claim-log-1
+- kubectl describe pvc claim-log-1
+- kubectl delete pvc claim-log-1
+
+```
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+        name: claim-log-1
+spec:
+        accessModes:
+                - ReadWriteMany
+        resources:
+                 requests:
+                         storage: 50Mi
+
+```
