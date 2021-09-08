@@ -90,6 +90,26 @@ spec:
 
 ```
 
+### ConfigMap 
+- kubectl create configmap webapp-config-map --from-literal=APP_COLOR=darkblue
+ ```yaml 
+  spec:
+  containers:
+  - envFrom:
+    - configMapRef:
+      name: webapp-config-map
+  ```
+  
+### Secret
+- kubectl create secret generic db-secret --from-literal=DB_Host=sql-1 --from-literal=DB_User=root --from-literal=DB_Password=password123
+```yaml
+spec:
+  containers:
+    - image: kodekloud/simple-webapp-mysql
+      envFrom:
+        - secretRef:
+            name: db-secret
+```
 
 ### namespaces
 - How many pods exist in the research namespace
