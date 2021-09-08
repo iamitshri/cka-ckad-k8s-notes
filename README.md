@@ -1,6 +1,10 @@
 # k8s-notes
 Kubernetes notes and commands
-
+- https://afkham-azeez.medium.com/passing-ckad-tips-tricks-e24712f3e4a4
+- Cheatsheet:
+  - https://github.com/dennyzhang/cheatsheet-kubernetes-A4/blob/master/cheatsheet-kubernetes-A4.pdf
+- Autocompletion: 
+  - https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
 ## General
 
 -- Get a list of all the k8s objects
@@ -18,8 +22,45 @@ kubectl get all -n namespace_name
 ![img.png](img.png)
 - Additional tips
   - https://www.youtube.com/watch?v=rnemKrveZks&ab_channel=MuralidaranShanmugham
+
+- find which node pods are running on 
+  - kubectl get pods -o wide
+- What does the READY column in the output of the kubectl get pods command indicate?
+  - Running containers in the pod/ Total containers in the pod
+  
+
+
 ### Get pods 
 ``` kubectl get pods ```
+
+### ReplicaSets 
+- replicaset ensures that desired number of pods are always run
+- kubectl get rs
+- kubectl get rs new-replica-set -o yaml | less
+- kubectl edit rs new-replica-set
+- kubectl scale replicaset
+- kubectl edit replicaset
+- Look up syntax
+  - kubectl explain replicaset | grep VERSION
+```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicaset-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: nginx
+  template:
+    metadata:
+      labels:
+        tier: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+```
 
 ### Deployments
 - kubectl get deployments
@@ -27,7 +68,59 @@ kubectl get all -n namespace_name
 - kubectl edit deployment name 
   - Change image name
   - change deployment strategy 
+- kubectl create -f deployment-definition-httpd.yaml
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: httpd-frontend
+  template:
+    metadata:
+      labels:
+        name: httpd-frontend
+    spec:
+      containers:
+      - name: httpd-frontend
+        image: httpd:2.4-alpine
 
+```
+
+
+### namespaces
+- How many pods exist in the research namespace
+  - kubectl get pods -n research  
+- kubectl run redis --image=redis -n finance
+  - kubectl run redis --image=redis -n finance
+- Which namespace has the pod blue 
+  - kubectl get pods --all-namespaces | grep blue
+### imperative commands 
+- Create pod with the image given
+  - kubectl run podtest --image=nginx
+  - kubectl run nginx-pod --image nginx:alpine
+- Create pod and add a label 
+  - kubectl run redis --image redis:alpine
+  - kubectl label pod redis tier=db
+- Create a service redis-service to expose application within the cluster on the port 6379
+  - kubectl expose pod redis --port=6379 --name=redis-service
+- Create Deployment
+  - kubectl create deployment webapp --image=kodekloud/webapp-color --replicas=3
+- Create a new pod called custom-nginx using the nginx image and expose it on container port 8080
+  - kubectl run custom-nginx --image=nginx --port=8080
+- Create a new name namespace
+  - kubectl create ns dev-ns
+- Create a new deployment called redis-deploy in the dev-ns namespace with the redis image. It should have 2 replicas.
+  - kubectl create deployment redis-deploy -n dev-ns --image=redis --replicas=2
+- Create a pod called httpd using the image httpd:alpine in the default namespace. Next, create a service of type ClusterIP by the same name (httpd). The target port for the service should be 80.
+- ```yaml 
+  root@controlplane:~# kubectl run httpd --image httpd:alpine --port 80 --expose
+  service/httpd created
+  pod/httpd created
+  ```
 ### Logs
 - kubectl logs pod-name
 
@@ -82,11 +175,13 @@ spec:
   - service port aka targetPort
   - nodePort
   - port 
- - service acts as a built in load balancer
+- service acts as a built in load balancer
 - cluster ip service type
         - targetPort: 80
         - port: 80
 - service layer can assign port number greather that 30000
+- Describe service in a namespace 
+  - kubectl describe service db-service -n dev
 #### commands
         - kubectl get services
         - kubectl describe service kubernetes
