@@ -1,6 +1,10 @@
 # k8s-notes
 Kubernetes notes and commands
 - https://afkham-azeez.medium.com/passing-ckad-tips-tricks-e24712f3e4a4
+- CKAD 
+  - Udemy Course: https://www.udemy.com/course/certified-kubernetes-application-developer/
+  - https://dzone.com/articles/kubernetes-for-application-developers-ckad
+    - experience: https://github.com/IvoNet/CKAD-resources
 - Cheatsheet:
   - https://github.com/dennyzhang/cheatsheet-kubernetes-A4/blob/master/cheatsheet-kubernetes-A4.pdf
 - Autocompletion: 
