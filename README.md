@@ -418,3 +418,72 @@ spec:
 
 ```
 
+- Docker Images
+  - How many docker images are present? `docker images` & count :)
+  - Build an image from Dockerfile `docker build -t image-name .`
+  - Run image `docker run  -p host-port:container-port image-name` e.g. `docker run -p 8282:8080 webapp-color`
+  - To run the container in the background, add the `-d` flag.
+
+- KubeConfig
+  - `kubectl config use-context research --kubeconfig /root/my-kube-config`
+
+- Inspect the env
+  - `kubectl describe pod kube-apiserver-controlplane -n kube-system`
+- # of roles
+  - `kubectl get roles --all-namespaces | wc --l`
+- 
+- What access is given to role Kube-proxy in kube system namesystem
+  - `kubectl describe role kube-proxy -n kube-system`
+
+- RoleBinding
+  - `kubectl describe rolebinding kube-proxy -n kube-system`
+
+- Check access
+  - Inspect the permissions granted to the user. Check if the user can list pods in the default namespace.
+  - `kubectl get pods --as dev-user`
+
+- Create Role Binding
+  - `kubectl create rolebinding dev-user-binding --clusterrole=developer --user=dev-user`
+- Edit Role
+  - `kubectl edit role developer -n=blue`
+
+```yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: blue
+  name: deploy-role
+rules:
+- apiGroups: ["apps", "extensions"]
+  resources: ["deployments"]
+  verbs: ["create"]
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dev-user-deploy-binding
+  namespace: blue
+subjects:
+- kind: User
+  name: dev-user
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: deploy-role
+  apiGroup: rbac.authorization.k8s.io
+
+```
+
+- Admission controllers
+  - grep enable-admission-plugins /etc/kubernetes/manifests/kube-apiserver.yaml
+  - Add NamespaceAutoProvision admission controller to --enable-admission-plugins list to /etc/kubernetes/manifests/kube-apiserver.yaml 
+  - It should look like below
+    - `--enable-admission-plugins=NodeRestriction,NamespaceAutoProvision`
+    - API server will automatically restart and pickup this configuration
+  - To disable a plugin
+    - Update `/etc/kubernetes/manifests/kube-apiserver.yaml` as below
+    - `--disable-admission-plugins=DefaultStorageClass`
+  - Checkout enabled and disabled plugins
+    - Since the kube-apiserver is running as pod you can check the process to see enabled and disabled plugins.
+    - `ps -ef | grep kube-apiserver | grep admission-plugins`
