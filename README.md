@@ -1,5 +1,8 @@
 # k8s-notes
 Kubernetes notes and commands
+
+Exam Tips:
+
 - https://afkham-azeez.medium.com/passing-ckad-tips-tricks-e24712f3e4a4
 - https://kgamanji.medium.com/how-i-passed-my-ckad-with-97-6b54dcffa72f
 - https://mengying-li.medium.com/failed-ckad-first-attempt-my-journey-to-improve-exam-score-from-53-to-98-in-a-month-part-1-badde0746231
@@ -31,11 +34,14 @@ Kubernetes notes and commands
   - https://testmoz.com/q/5560368
 - Additional resources
   - https://github.com/bmuschko/ckad-crash-course#additional-resources
-- Autocompletion: 
-  - https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
+- https://www.youtube.com/watch?v=rnemKrveZks&ab_channel=MuralidaranShanmugham
+
 
 ## Setup
 Pre Setup
+- Autocompletion:
+  - https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
+
 Once you've gained access to your terminal it might be wise to spend ~1 minute to setup your environment. You could set these:
 
 ````
@@ -50,9 +56,6 @@ set tabstop=2
 set expandtab
 set shiftwidth=2
 ````
-
-More setup suggestions are in the tips section
-
 
 ## General
 
@@ -72,9 +75,16 @@ kubectl get all -n namespace_name
 - attempt all questions 
 - dont get stuck 
 - Use shortcuts/ aliases
-![img.png](img.png)
+  - po for pods
+  - rs for replicasets
+  - deploy for deployments
+  - svc for services
+  - ns for namespaces
+  - netpol for network policies
+  - pv for persistent volume
+  - pvc for persistent volume claim
+  - sa for service account
 - Additional tips
-  - https://www.youtube.com/watch?v=rnemKrveZks&ab_channel=MuralidaranShanmugham
 
 - find which node pods are running on 
   - kubectl get pods -o wide
