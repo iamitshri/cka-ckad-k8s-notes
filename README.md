@@ -1,16 +1,65 @@
 # k8s-notes
 Kubernetes notes and commands
 - https://afkham-azeez.medium.com/passing-ckad-tips-tricks-e24712f3e4a4
+- https://kgamanji.medium.com/how-i-passed-my-ckad-with-97-6b54dcffa72f
+- https://mengying-li.medium.com/failed-ckad-first-attempt-my-journey-to-improve-exam-score-from-53-to-98-in-a-month-part-1-badde0746231
+- https://mengying-li.medium.com/failed-ckad-first-attempt-my-journey-to-improve-exam-score-from-53-to-98-in-a-month-part-2-f9e56f47cdf9
+  - pay attention to provided hints
+  - Do the context switch 
+  - Use default namespace if not specificed
+    - `alias kn='kubectl config set-context --current --namespace '
+      kn default
+  - Get familiar with nginx and busybox images.
+  - Use `--restart=Never` for busybox image
+    - `kubectl run busybox --image=busybox --command --restart=Never`
+  - Use bookmarks because exam questions are similar to official examples
+  - Use alias to avoid making mistakes
+    - `alias kn='kubectl config set-context --current --namespace '`
+  - Learn to validate the deployment is healthy by checking the log output and pods state
+  - Learn to verify service healthiness by sending traffic to the service and check the response
 - CKAD 
   - Udemy Course: https://www.udemy.com/course/certified-kubernetes-application-developer/
   - https://dzone.com/articles/kubernetes-for-application-developers-ckad
     - experience: https://github.com/IvoNet/CKAD-resources
 - Cheatsheet:
   - https://github.com/dennyzhang/cheatsheet-kubernetes-A4/blob/master/cheatsheet-kubernetes-A4.pdf
+- CKAD Exercises
+  - https://github.com/dgkanatsios/CKAD-exercises
+- prep notes
+  - https://github.com/twajr/ckad-prep-notes#tasks-from-kubernetes-doc
+- MCQ
+  - https://testmoz.com/q/5560368
+- Additional resources
+  - https://github.com/bmuschko/ckad-crash-course#additional-resources
 - Autocompletion: 
   - https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
+
+## Setup
+Pre Setup
+Once you've gained access to your terminal it might be wise to spend ~1 minute to setup your environment. You could set these:
+
+````
+alias k=kubectl                         # will already be pre-configured
+export do="--dry-run=client -o yaml"    # k get pod x $do
+export now="--force --grace-period 0"   # k delete pod x $now
+````
+- Vim
+  - To make vim use 2 spaces for a tab edit ~/.vimrc to contain:
+````
+set tabstop=2
+set expandtab
+set shiftwidth=2
+````
+
+More setup suggestions are in the tips section
+
+
 ## General
 
+- check the client version
+  - `kubectl version --client`
+- View the config
+  - `kubectl view config`
 -- Get a list of all the k8s objects
 - kubectl get all -A    
 
@@ -33,6 +82,11 @@ kubectl get all -n namespace_name
   - Running containers in the pod/ Total containers in the pod
   
 
+### Exec in Container 
+- ```kubectl exec pod-name -- cat filename ```
+
+### Labels
+- `kubectl get po --show-labels -l type=frontend`
 
 ### Get pods 
 ``` kubectl get pods ```
@@ -491,3 +545,79 @@ roleRef:
   - Checkout enabled and disabled plugins
     - Since the kube-apiserver is running as pod you can check the process to see enabled and disabled plugins.
     - `ps -ef | grep kube-apiserver | grep admission-plugins`
+
+  - Create TLS secret
+    - `root@controlplane:~# kubectl -n webhook-demo create secret tls webhook-server-tls --cert "/root/keys/webhook-server-tls.crt" --key "/root/keys/webhook-server-tls.key"
+      secret/webhook-server-tls created`
+    - Webhook config
+  ```yaml
+  
+    apiVersion: admissionregistration.k8s.io/v1beta1
+    kind: MutatingWebhookConfiguration
+    metadata:
+      name: demo-webhook
+    webhooks:
+     - name: webhook-server.webhook-demo.svc
+       clientConfig:
+       service:
+          name: webhook-server
+          namespace: webhook-demo
+          path: "/mutate"
+          caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lVR2tlYXNhS25yNkhkRkE4NERDZEIwaTRCWFJrd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0x6RXRNQ3NHQTFVRUF3d2tRV1J0YVhOemFXOXVJRU52Ym5SeWIyeHNaWElnVjJWaWFHOXZheUJFWlcxdgpJRU5CTUI0WERUSXhNVEV3TVRFek1USXdNMW9YRFRJeE1USXdNVEV6TVRJd00xb3dMekV0TUNzR0ExVUVBd3drClFXUnRhWE56YVc5dUlFTnZiblJ5YjJ4c1pYSWdWMlZpYUc5dmF5QkVaVzF2SUVOQk1JSUJJakFOQmdrcWhraUcKOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXBIRzFyQkdQdkNnME8vb0ZJRWVSM0JsUURDR2pHOWZySm9pRQpGSG1EVzBuNGx2MGNNTVd0dDVQVmkzYmlZRkc5RmwyZVZTTmk5S2JtWmJpNUVxNTdOeDBITWZCS0Zldi9hRDdmClkzSkFMenptblh1SytGTXpkM2d0dU00cnNuOHJrMXR2QW8rWVNqNE1aLzc4TkkvZG9tYnlROUMzdlZZODVoYVkKdkFWU0kzQy9Zd1FFdjRtVDVNV0Nqb3MvalMxSmhHVHNvU3dIMWtaK0V3VjluMG9PWHVaN1VQMWQrWUMvTUVTVgpockNOTldsNE9wNzNldENtS012a2JUTGZDM0Rvc0tHNnZiNGxhNDdsU1hva05ESEpHMmd1L0tnN3Q3S0VKc3hMCndKS3JONDFXYlNIS3M2Uk1TNnpSaG1PakNGRGw4MU5KeTFGc21MRXFNMmwraC9QSXdRSURBUUFCbzFNd1VUQWQKQmdOVkhRNEVGZ1FVU2UzV3VNU2pOZjJRa1IvU3NXRlZodk5EM0Frd0h3WURWUjBqQkJnd0ZvQVVTZTNXdU1TagpOZjJRa1IvU3NXRlZodk5EM0Frd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFhOXFzM2FPb0drNnZTWUM0NERhcExkK0FETWVCbUw1MkUyMzEvbGVTZ1daRklqdm5kTmlCb21FeUZZZG4KTU54em14MTh0SGxMK1JaYkFUcjAzQlM3bURyNUVpbi9INHRSSmhzY0xoUWIxZkQwNVNianIvVmNwL0RQR09obApwQkJYcHdBcTl0RFNMOFQxWGYxaWxQUDJraXcwV2pxSk84SVI1SWJZbzNxT0gvbUlqVThxekFTYmtMWTFrcVRjCngra0wvT1VFTXpFVDhIdEFINUJHU2N1L25UNGxWN0orbjlWRUh2czMyVHF5Y1Y4Sm5oSHdRM3ZSMTgvOWJpRFgKWWIzRVFreWUzR1RKTGpNSi9ZUU1NUktKOVM0MXV5YlRaTWJqa3Z0S1JoRk4yTW45dExURDQrTjdFWFZ1WG8wcwpGa0JUWjg1UFpqMmZydmlQN3RldjUwN2FvQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    rules:
+     - operations: [ "CREATE" ]
+       apiGroups: [""]
+       apiVersions: ["v1"]
+       resources: ["pods"]
+    
+   ```
+
+- Identify the short names of the deployments, replicasets, cronjobs and customresourcedefinitions.
+  - `kubectl get rs,deploy,cj,crd -A`
+ 
+- find the job family or api group
+  - `kubectl explain job`
+
+- To identify the preferred version, run the following commands as follows :-
+  - `root@controlplane:~# kubectl proxy 8001&`
+  - `root@controlplane:~# curl localhost:8001/apis/authorization.k8s.io`
+- Where & runs the command in the background and kubectl proxy command starts the proxy to the kubernetes API server.
+
+
+- Enable the v1alpha1 version for rbac.authorization.k8s.io API group on the controlplane node.
+  - Add the --runtime-config=rbac.authorization.k8s.io/v1alpha1 option to the kube-apiserver.yaml file.
+- As a good practice, take a backup of that apiserver manifest file before going to make any changes.
+  In case, if anything happens due to misconfiguration you can replace it with the backup file.
+```
+root@controlplane:~# cp -v /etc/kubernetes/manifests/kube-apiserver.yaml /root/kube-apiserver.yaml.backup
+Now, open up the kube-apiserver manifest file in the editor of your choice. It could be vim or nano.
+
+root@controlplane:~# vi /etc/kubernetes/manifests/kube-apiserver.yaml
+Add the --runtime-config flag in the command field as follows :-
+
+- command:
+  - kube-apiserver
+  - --advertise-address=10.18.17.8
+  - --allow-privileged=true
+  - --authorization-mode=Node,RBAC
+  - --client-ca-file=/etc/kubernetes/pki/ca.crt
+  - --enable-admission-plugins=NodeRestriction
+  - --enable-bootstrap-token-auth=true
+  - --runtime-config=rbac.authorization.k8s.io/v1alpha1 --> This one
+    After that kubelet will detect the new changes and will recreate the apiserver pod.
+
+It may take some time.
+
+root@controlplane:~# kubectl get po -n kube-system
+Check the status of the apiserver pod. It should be in running condition.
+```
+- Change version using kubectl-convert
+  - `kubectl-convert -f ingress-old.yaml --output-version networking.k8s.io/v1`
+  - Make the change and save it to file
+    - `kubectl-convert -f ingress-old.yaml --output-version networking.k8s.io/v1 > ingress-new.yaml`
+    
+Deployment
+```yaml
+ kubectl rollout history deployment/api-new-c32 -n=neptune --revision=4
+ kubectl rollout undo deployment/api-new-c32 -n=neptune
+```
