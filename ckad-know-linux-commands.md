@@ -110,7 +110,6 @@ In addition you could define an alias like:
 `alias kn='kubectl config set-context --current --namespace` Which allows you to define the default namespace of the current context. Then once you switch a context or namespace you can just run:
 
 ```yaml
-
 kn default        # set default to default
 kn my-namespace   # set default to my-namespace
 ```
@@ -122,3 +121,5 @@ k -n my-namespace get pod
 ```
  
 
+- Get the current namsepace
+- `kubectl config view --minify --output 'jsonpath={..namespace}{"\n"}'; `

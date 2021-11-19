@@ -74,6 +74,9 @@ set shiftwidth=2
 
 ## General
 
+```
+k config set-context --current --namespace=k8n-challenge-2-a
+```
 - Run a command and exit
 ```bash
 kubectl run tmp --restart=Never --image=nginx --rm -i -- curl google.com
