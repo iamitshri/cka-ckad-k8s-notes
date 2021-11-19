@@ -2,7 +2,18 @@
 Kubernetes notes and commands
 
 Exam Tips:
-
+- tips from killer.sh
+- Knowledge
+  - Study all topics as proposed in the curriculum till you feel comfortable with all
+  - Do these, maybe 2–3 times (using LATEST kubectl) https://github.com/dgkanatsios/CKAD-exercises
+  - We have a series with scenarios on Medium, do all of these. Also imagine and create your own ones.
+    - https://codeburst.io/kubernetes-ckad-weekly-challenges-overview-and-tips-7282b36a2681
+  - Read this and do all examples: https://kubernetes.io/docs/concepts/cluster-administration/logging
+  - Understand Rolling Update Deployment including maxSurge and maxUnavailable
+  - Do 1 or 2 test session with this CKAD Simulator. Understand the solutions and maybe try out other ways to achieve the same
+  - Setup your aliases, be fast and breath kubectl
+- https://mattburman.com/how-i-passed-the-ckad-exam/
+- https://faun.pub/be-fast-with-kubectl-1-18-ckad-cka-31be00acc443
 - https://afkham-azeez.medium.com/passing-ckad-tips-tricks-e24712f3e4a4
 - https://kgamanji.medium.com/how-i-passed-my-ckad-with-97-6b54dcffa72f
 - https://mengying-li.medium.com/failed-ckad-first-attempt-my-journey-to-improve-exam-score-from-53-to-98-in-a-month-part-1-badde0746231
@@ -65,9 +76,8 @@ set shiftwidth=2
 
 - Run a command and exit
 ```bash
-
-kubectl run tmp --restart=Never --rm -i  --image=nginx -- curl google.com
-
+kubectl run tmp --restart=Never --image=nginx --rm -i -- curl google.com
+kubectl run tmp --restart=Never --image=nginx --rm -it  -n=default -- curl google.com
  ```
 - check the client version
   - `kubectl version --client`
@@ -196,6 +206,8 @@ spec:
   - kubectl run redis --image=redis -n finance
 - Which namespace has the pod blue 
   - kubectl get pods --all-namespaces | grep blue
+
+
 ### imperative commands 
 - Create pod with the image given
   - kubectl run podtest --image=nginx
@@ -266,13 +278,13 @@ spec:
 
 
 ### Services
-- Services enables communication between group of pods
-- promotes loose coupling between pods
-- listens on port on node and forward traffic to pod
-- Nodeports Service type
-  - service port aka targetPort
-  - nodePort
-  - port 
+- Service enables communication between group of pods
+- Promotes loose coupling between pods
+- Listens on port on node and forward traffic to pod
+- Nodeport Service 
+  - targetPort: port on container
+  - nodePort: port on the node 
+  - port: service port 
 - service acts as a built-in load balancer
 - cluster ip service type
         - targetPort: 80
@@ -280,18 +292,36 @@ spec:
 - service layer can assign port number greather that 30000
 - Describe service in a namespace 
   - kubectl describe service db-service -n dev
-  
 
+``` ~ % k expose pod pod  --port=80 --target-port=8080 --name=exposed-service --dry-run=client -o yaml```
+  
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: pod
+  name: exposed-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: pod
+status:
+  loadBalancer: {}
+
+```
 #### commands
 - Create a Service named redis-service of type ClusterIP to expose pod redis on port 6379
-
 - ```kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o yaml```
-- **(This will automatically use the pod’s labels as selectors)**
+  - **(This will automatically use the pod’s labels as selectors)**
 
-- Or
-
+- Or Use this
 - ```kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml```
-- **This will not use the pods labels as selectors**, instead it will assume selectors as app=redis. You cannot pass in selectors as an option. So it does not work very well if your pod has a different label set. 
+  - **This will not use the pods labels as selectors**, instead it will assume selectors as app=redis. You cannot pass in selectors as an option. So it does not work very well if your pod has a different label set. 
 - So generate the file and modify the selectors before creating the service
 
 
@@ -306,19 +336,22 @@ Or
 - **(This will not use the pods labels as selectors)**
 
 Both the above commands have their own challenges. While one of it cannot accept a selector the other cannot accept a node port.
-- KodeCloud recommend going with the `kubectl expose` command. If you need to specify a node port, generate a definition file using the same command and manually input the nodeport before creating the service.
+- KodeCloud recommend going with the `kubectl expose` command. 
+- If you need to specify a node port, generate a definition file using the same command and manually input the nodeport before creating the service.
 
+```yaml
 
+ k create service nodeport my-nodeport-service --tcp=8080:30700 --dry-run=client -o yaml
+ kubectl create service nodeport nginx --tcp=80:80 --node-port=30080 --dry-run=client -o yaml
+ kubectl get services
+ kubectl describe service kubernetes
+ kubectl edit service kubernetes
+ kubectl get endpoints
+ kubectl expose deployment name --name=svc-name --target-port=8080 --port=8080  --node-port=30080 --type=Nodeport --dry-run=client -o yaml > svc.yaml
 
+```
 
-        - kubectl create service nodeport nginx --tcp=80:80 --node-port=30080 --dry-run=client -o yaml
-        - kubectl get services
-        - kubectl describe service kubernetes
-        - kubectl edit service kubernetes
-        - kubectl get endpoints
-        - kubectl expose deployment name --name=svc-name --target-port=8080 --port=8080  --node-port=30080 --type=Nodeport --dry-run=client -o yaml > svc.yaml
-
-- Ingress
+### Ingress
 - kubectl get ingress --all-namespaces
 - kubectl describe ingress --namespace app-space
 - kubectl edit ingress --namespace app-space
