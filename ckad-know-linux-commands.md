@@ -89,6 +89,23 @@ set shiftwidth=2
 The expandtab make sure to use spaces for tabs. Memorize these and just type them down. You can't have any written notes with commands on your desktop etc.
 
 Optional Setup
+## Setup
+```bash
+
+$ cat .bash_profile
+
+alias h='helm'
+#Before we begin lets create some aliases:
+alias k=kubectl
+alias kg='k get '
+alias kc='k create '
+alias krm='k delete '
+alias kd='k describe '
+alias ka='k apply -f '
+alias ke='k edit '
+
+```
+
 ### Fast dry-run output
 
 `export do="--dry-run=client -o yaml"`
@@ -107,7 +124,11 @@ You can store aliases and other setup in ~/.bashrc if you're planning on using d
 
 In addition you could define an alias like:
 
-`alias kn='kubectl config set-context --current --namespace` Which allows you to define the default namespace of the current context. Then once you switch a context or namespace you can just run:
+- `alias kn='kubectl config set-context --current --namespace` Which allows you to define the default namespace of the current context. Then once you switch a context or namespace you can just run:
+- `kubectl config set-context --current --namespace=${NAMESPACE}`
+With kubectl, it’s also possible to switch the namespace, in this case it’s not necessary to add the -n parameter in subsequent commands:
+
+
 
 ```yaml
 kn default        # set default to default
