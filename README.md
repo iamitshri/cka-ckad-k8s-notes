@@ -1,4 +1,4 @@
-# k8s-notes
+# CKAD exam notes
 Kubernetes notes and commands
 
 Exam Tips:
