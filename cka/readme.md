@@ -2,59 +2,51 @@
 - [CKA_Curriculum_v1.26.pdf](CKA_Curriculum_v1.26.pdf)
 - Source: https://github.com/cncf/curriculum
 
-This document provides the curriculum outline of the Knowledge, Skills and Abilities that a Certiﬁed Kubernetes Administrator (CKA) can be expected to demonstrate.
-CKA Curriculum
+ 
 
-25% - Cluster Architecture, Installation & Configuration
+Domains & Competencies
+ 
+Storage **10%**
+Understand storage classes, persistent volumes
+Understand volume mode, access modes and reclaim policies for volumes
+Understand persistent volume claims primitive
+Know how to configure applications with persistent storage
 
-- Manage role based access control (RBAC)
-- Use Kubeadm to install a basic cluster
-- Manage a highly-available Kubernetes cluster
-- Provision underlying infrastructure to deploy a Kubernetes cluster
-- Perform a version upgrade on a Kubernetes cluster using Kubeadm
-- Implement etcd backup and restore
+Troubleshooting **30%**
+Evaluate cluster and node logging
+Understand how to monitor applications
+Manage container stdout & stderr logs
+Troubleshoot application failure
+Troubleshoot cluster component failure
+Troubleshoot networking
 
-15% - Workloads & Scheduling
+Workloads & Scheduling **15%**
+Understand deployments and how to perform rolling update and rollbacks
+Use ConfigMaps and Secrets to configure applications
+Know how to scale applications
+Understand the primitives used to create robust, self-healing, application deployments
+Understand how resource limits can affect Pod scheduling
+Awareness of manifest management and common templating tools
 
-- Understand deployments and how to perform rolling update and rollbacks
-- Use ConfigMaps and Secrets to configure applications
-- Know how to scale applications
-- Understand the primitives used to create robust, self-healing, application deployments
-- Understand how resource limits can affect Pod scheduling
-- Awareness of manifest management and common templating tools
+Cluster Architecture, Installation & Configuration ** 25%**
+Manage role based access control (RBAC)
+Use Kubeadm to install a basic cluster
+Manage a highly-available Kubernetes cluster
+Provision underlying infrastructure to deploy a Kubernetes cluster
+Perform a version upgrade on a Kubernetes cluster using Kubeadm
+Implement etcd backup and restore
 
-20% - Services & Networking
-
-- Understand host networking configuration on the cluster nodes
-- Understand connectivity between Pods
-- Understand ClusterIP, NodePort, LoadBalancer service types and endpoints
-- Know how to use Ingress controllers and Ingress resources
-- Know how to configure and use CoreDNS
-- Choose an appropriate container network interface plugin
-
-This document provides the curriculum outline of the Knowledge, Skills and Abilities that a Certiﬁed Kubernetes Administrator (CKA) can be expected to demonstrate.
-CKA Curriculum
-
-10% - Storage
-
-- Understand storage classes, persistent volumes
-- Understand volume mode, access modes and reclaim policies for volumes
-- Understand persistent volume claims primitive
-- Know how to configure applications with persistent storage
-
-30% - Troubleshooting
-
-- Evaluate cluster and node logging
-- Understand how to monitor applications
-- Manage container stdout & stderr logs
-- Troubleshoot application failure
-- Troubleshoot cluster component failure
-- Troubleshoot networking
+Services & Networking** 20%**
+Understand host networking configuration on the cluster nodes
+Understand connectivity between Pods
+Understand ClusterIP, NodePort, LoadBalancer service types and endpoints
+Know how to use Ingress controllers and Ingress resources
+Know how to configure and use CoreDNS
+Choose an appropriate container network interface plugin
 
 
 
-Cloud native computing uses an open source software stack to deploy applications as microservices, packaging each part into its own container, and dynamically orchestrating those containers to optimize resource utilization. The Cloud Native Computing Foundation (CNCF) hosts critical components of those software stacks including Kubernetes, Fluentd, Linkerd, Prometheus, OpenTracing and gRPC; brings together the industry’s top developers, end users, and vendors; and serves as a neutral home for collaboration. CNCF is part of The Linux Foundation, a nonprofit organization. For more information about CNCF, please visit: https://cncf.io/.
 
 
-
+ 
 
