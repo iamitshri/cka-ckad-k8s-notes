@@ -4,7 +4,7 @@
 k get daemonset kube-proxy -n kube-system -o yaml
 kubectl describe daemonset kube-proxy --namespace=kube-system
 
-
+# Create Deployment and edit it by removing replica, strategy update kind
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
