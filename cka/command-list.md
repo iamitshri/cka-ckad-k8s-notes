@@ -1,6 +1,11 @@
 ## Node Affinity
 
 ```
+# create deployment
+k create deployment blue --image nginx --replicas 3
+```
+
+```
     spec:
       containers:
       - image: nginx
