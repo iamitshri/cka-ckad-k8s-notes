@@ -3,6 +3,7 @@
 ```
 # create deployment
 k create deployment blue --image nginx --replicas 3
+
 ```
 
 ```
