@@ -4,6 +4,14 @@
 # create deployment
 k create deployment blue --image nginx --replicas 3
 
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: Exists
 ```
 
 ```
