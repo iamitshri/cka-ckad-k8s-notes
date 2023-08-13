@@ -17,7 +17,8 @@
                 - key: color
                   operator: In
                   values:
-                    - blue```
+                    - blue
+```
 
 ## Node Selector 
 
