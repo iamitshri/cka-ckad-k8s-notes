@@ -1,5 +1,4 @@
 ### Certiﬁed Kubernetes Administrator (CKA) Exam Curriculum
-- [CKA_Curriculum_v1.26.pdf](CKA_Curriculum_v1.26.pdf)
 - Source: https://github.com/cncf/curriculum
 
  
