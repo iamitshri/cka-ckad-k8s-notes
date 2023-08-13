@@ -1,4 +1,7 @@
 ### Static pods
+- pods ending with node name
+- created by kubelet without the help of api server
+- create pod defs in the configured location to create static pod /etc/kubernetes/manifests 
 ```
 k get pod -A | egrep  -i '\-controlplane'
 
