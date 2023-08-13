@@ -10,6 +10,23 @@ k get pod -A | egrep  -i '\-controlplane'
 kubectl run --restart=Never --image=busybox static-busybox --dry-run=client -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml
 
 ```
+```yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: static-busybox
+  name: static-busybox
+spec:
+  containers:
+  - command:
+    - sleep
+    - "1000"
+    image: busybox:1.28.4
+    name: static-busybox
+```
+
 
 
 ## Daemonsets
