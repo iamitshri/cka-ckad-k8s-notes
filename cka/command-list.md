@@ -1,4 +1,33 @@
-# Taints and Tolerations
+## Node Affinity
+
+```
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: nginx
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: color
+                  operator: In
+                  values:
+                    - blue```
+
+## Node Selector 
+
+```
+nodeSelector:
+    labelName: value
+
+```
+
+## Taints and Tolerations
 ```
 k taint node node01 spray=mortein:NoSchedule 
 k run mosquito --image nginx
@@ -7,6 +36,7 @@ k get po mosquito -o jsonpath='{.status.phase}'
 k describe node node01 | grep -i taint
 #remove taint
 k taint node controlplane node-role.kubernetes.io/control-plane:NoSchedule-
+k describe node controlplane | grep -C 10 -i taints
 ```
 
 ### pod with tolerations 
