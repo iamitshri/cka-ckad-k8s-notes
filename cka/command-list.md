@@ -1,3 +1,33 @@
+## Daemonsets
+
+```
+k get daemonset kube-proxy -n kube-system -o yaml
+kubectl describe daemonset kube-proxy --namespace=kube-system
+
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app: elasticsearch
+  name: elasticsearch
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - image: registry.k8s.io/fluentd-elasticsearch:1.20
+        name: fluentd-elasticsearch
+
+```
+
 ## Node Affinity
 
 ```
