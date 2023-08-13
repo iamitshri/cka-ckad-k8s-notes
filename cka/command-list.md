@@ -1,3 +1,14 @@
+- Static pods
+```
+k get pod -A | egrep  -i '\-controlplane'
+
+# Run the command ps -aux | grep kubelet and identify the config file - --config=/var/lib/kubelet/config.yaml. Then check in the config file for staticPodPath.
+# see the option --config=/var/lib/kubelet/config.yaml
+# open kubelet config and checkout value of staticPodPath
+
+```
+
+
 ## Daemonsets
 
 ```
