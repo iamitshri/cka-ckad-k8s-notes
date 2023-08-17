@@ -1,3 +1,7 @@
+### using custom col
+```
+k get po -o custom-columns=c:.metadata.name,IMAGE:.spec.initContainers[].image,state:.status.initContainerStatuses[0].state
+```
 ### Look at log in multicontainer pod 
 ```
 k -n elastic-stack exec -it app -- cat /log/app.log
