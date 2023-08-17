@@ -1,3 +1,13 @@
+### Setting env using configmap
+```
+  - env:
+    - name: APP_COLOR
+      valueFrom:
+        configMapKeyRef:
+          key: APP_COLOR
+          name: webapp-config-map
+```
+
 ### Deployment 
 
 ```
