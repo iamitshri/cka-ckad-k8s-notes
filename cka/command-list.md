@@ -1,3 +1,8 @@
+### Look at log in multicontainer pod 
+```
+k -n elastic-stack exec -it app -- cat /log/app.log
+
+```
 ### Setting env using secretRef
 
 ```
