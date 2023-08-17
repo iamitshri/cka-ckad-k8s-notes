@@ -1,3 +1,14 @@
+### Setting env using secretRef
+
+```
+  containers:
+  - image: kodekloud/simple-webapp-mysql
+    envFrom:
+     - secretRef:
+        name: db-secret
+
+```
+
 ### Setting env using configmap
 ```
   - env:
