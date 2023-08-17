@@ -1,3 +1,11 @@
+### Deployment 
+
+```
+
+k set image  deploy/frontend simple-webapp=kodekloud/webapp-color:v3
+
+```
+
 ### Static pods
 - pods ending with node name
 - created by kubelet without the help of api server
