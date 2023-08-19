@@ -1,5 +1,11 @@
-### etcd ctl 
+```
+etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --endpoints=https://127.0.0.1:2379  snapshot save /opt/snapshot-pre-boot.dbSnapshot saved at /opt/snapshot-pre-boot.db
+
+```
+
+### find etcd server url
 Use the command kubectl describe pod etcd-controlplane -n kube-system and look for --listen-client-urls
+can also use ps -aux | grep etcd and find the process kube-apiserver 
 
 ### Draining node does not work on pod not part of replicaset 
 `k drain node01 --ignore-deamonsets`
