@@ -1,3 +1,6 @@
+### etcd ctl 
+Use the command kubectl describe pod etcd-controlplane -n kube-system and look for --listen-client-urls
+
 ### Draining node does not work on pod not part of replicaset 
 `k drain node01 --ignore-deamonsets`
 If pod is not part of a replicaset. The drain command will not work in this case. To forcefully drain the node we now have to use the --force flag.
