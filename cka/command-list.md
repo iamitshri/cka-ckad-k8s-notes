@@ -1,3 +1,5 @@
+<img width="720" alt="image" src="https://github.com/iamitshri/cka-ckad-k8s-notes/assets/26192212/f6c59810-0013-47ee-bb25-ecfab30cef7f">
+
 ```
 etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --endpoints=https://127.0.0.1:2379  snapshot save /opt/snapshot-pre-boot.dbSnapshot saved at /opt/snapshot-pre-boot.db
 
