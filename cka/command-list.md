@@ -1,3 +1,12 @@
+
+```
+
+k auth can-i get pods/dark-blue-app  --as dev-user -n blue
+k auth can-i get pod --as dev-user
+k create rolebinding dev-user-binding --role=developer --user=dev-user
+k create role developer --verb=delete,list,create --resource=pods
+
+```
 <img width="720" alt="image" src="https://github.com/iamitshri/cka-ckad-k8s-notes/assets/26192212/f6c59810-0013-47ee-bb25-ecfab30cef7f">
 
 ```
