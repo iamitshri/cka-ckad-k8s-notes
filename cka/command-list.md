@@ -1,3 +1,7 @@
+### Draining node does not work on pod not part of replicaset 
+`k drain node01 --ignore-deamonsets`
+If pod is not part of a replicaset. The drain command will not work in this case. To forcefully drain the node we now have to use the --force flag.
+
 ### note on self healing apps
 
 Kubernetes supports self-healing applications through ReplicaSets and Replication Controllers. The replication controller helps in ensuring that a POD is re-created automatically when the application within the POD crashes. It helps in ensuring enough replicas of the application are running at all times.
