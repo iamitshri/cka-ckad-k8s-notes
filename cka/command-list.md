@@ -1,4 +1,37 @@
+###
+```
 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+  namespace: default
+spec:
+  podSelector:
+      matchLabels:
+          name: internal
+
+  policyTypes:
+    - Egress
+
+
+  egress:
+      - to:
+        - podSelector:
+            matchLabels:
+              name: payroll
+        ports:
+        - port: 8080
+          protocol: TCP
+      - to:
+        - podSelector:
+            matchLabels:
+              name: mysql
+        ports:
+        - port: 3306
+          protocol: TCP
+
+```
 
 ### ClusterRole and Role
 ```
