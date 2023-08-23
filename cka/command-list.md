@@ -1,4 +1,21 @@
-###
+#### kubectx
+
+```
+While this is excellent for hands-on practice, in a real “live” kubernetes cluster implemented for production, there could be a possibility of often switching between a large number of namespaces and clusters.
+
+This can quickly become and confusing and overwhelming task if you had to rely on kubectl alone.
+
+This is where command line tools such as kubectx and kubens come in to picture.
+
+Reference: https://github.com/ahmetb/kubectx
+
+Kubectx:
+
+With this tool, you don’t have to make use of lengthy “kubectl config” commands to switch between contexts. This tool is particularly useful to switch context between clusters in a multi-cluster environment.
+
+```
+
+### netpol
 ```
 
 apiVersion: networking.k8s.io/v1
