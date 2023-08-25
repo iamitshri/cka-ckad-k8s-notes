@@ -1,5 +1,11 @@
 ### Networking 
 
+What is the port the kube-scheduler is listening on in the controlplane node?
+- `netstat -nplt`
+
+- Show Default Route taken requests
+- ```ip route show default```
+
 <img width="1588" alt="image" src="https://github.com/iamitshri/cka-ckad-k8s-notes/assets/26192212/8028db04-a15f-4f41-b456-9e093d0515f7">
 
 
