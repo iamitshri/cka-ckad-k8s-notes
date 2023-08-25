@@ -1,5 +1,8 @@
 ### Networking 
 
+Active connections 
+`netstat -anp` 
+
 What is the port the kube-scheduler is listening on in the controlplane node?
 - `netstat -nplt`
 
