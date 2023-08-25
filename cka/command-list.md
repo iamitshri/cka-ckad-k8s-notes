@@ -1,4 +1,6 @@
-### NEtworking 
+### Networking 
+
+<img width="1687" alt="image" src="https://github.com/iamitshri/cka-ckad-k8s-notes/assets/26192212/b272108e-edd6-4456-826a-5b770d376d71">
 
 <img width="1127" alt="image" src="https://github.com/iamitshri/cka-ckad-k8s-notes/assets/26192212/b88ef0fb-ab1a-4645-bfd0-1c4ee26806b1">
 
