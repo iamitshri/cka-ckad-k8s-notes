@@ -1,3 +1,7 @@
+### NEtworking 
+
+<img width="1127" alt="image" src="https://github.com/iamitshri/cka-ckad-k8s-notes/assets/26192212/b88ef0fb-ab1a-4645-bfd0-1c4ee26806b1">
+
 #### kubectx
 
 ```
