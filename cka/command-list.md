@@ -1,3 +1,11 @@
+## Handy command
+
+- Replace pod
+- ` k replace -f filepath --force `
+- Set namespace
+-   ` k config set-context --current --namespace=desired-namespace`
+
+
 ### Networking 
 
 <img width="1260" alt="image" src="https://github.com/iamitshri/cka-ckad-k8s-notes/assets/26192212/5837916a-c218-4e7e-a318-b8be49a65e84">
