@@ -113,3 +113,7 @@ Editing pod also does not work
 ![img.png](./images/img.png)
 ![img_1.png](./images/img_1.png)
 ![img_2.png](./images/img_2.png)
+
+
+
+https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552 
