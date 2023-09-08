@@ -1,5 +1,7 @@
+
 ## Handy command
 
+- `k config view --kubeconfig my-kube-config  -o jsonpath='{.contexts[?(@.context.user == "aws-user")].name}' > /opt/outputs/aws-context-name`
 - Replace pod
 - ` k replace -f filepath --force `
 - Set namespace
